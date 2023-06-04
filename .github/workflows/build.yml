@@ -31,8 +31,8 @@ jobs:
       - name: Fetch CL
         if: matrix.blas == 'ON'
         run: |
-          C:/msys64/usr/bin/wget.exe -qO clzip.zip ${{ matrix.clzip }}
-          7z x clzip.7z -o blas -y
+          C:/msys64/usr/bin/wget.exe -qO clzip.7z ${{ matrix.clzip }}
+          7z x clzip.7z -oblas -y
           copy blas/CLBlast-1.6.0-windows-x64/include/cblast.h .
           copy blas/CLBlast-1.6.0-windows-x64/include/cblast_c.h .
           copy blas/CLBlast-1.6.0-windows-x64/lib/clblast.dll
