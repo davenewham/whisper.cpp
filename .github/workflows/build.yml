@@ -49,7 +49,7 @@ jobs:
           cmake -S . -B ./build -A ${{ matrix.arch }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build }}
           -DWHISPER_CLBLAST=${{ matrix.blas }}
-          -DCMAKE_LIBRARY_PATH="$env:blasdir/lib"
+          -DCMAKE_LIBRARY_PATH="$env:blasdir/CLBlast-1.6.0-windows-x64/lib"
           -DWHISPER_SUPPORT_SDL2=${{ matrix.sdl2 }}
 
       - name: Build
