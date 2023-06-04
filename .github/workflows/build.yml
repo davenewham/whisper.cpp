@@ -16,7 +16,7 @@ jobs:
         sdl2: [ON]
         include:
           - arch: x64
-            obzip: https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip
+            clzip: https://github.com/CNugteren/CLBlast/releases/download/1.6.0/CLBlast-1.6.0-windows-x64.7z
             s2arc: x64
           - sdl2: ON
             s2ver: 2.26.0
@@ -28,13 +28,14 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1
 
-      - name: Fetch OpenBLAS
+      - name: Fetch CL
         if: matrix.blas == 'ON'
         run: |
-          C:/msys64/usr/bin/wget.exe -qO blas.zip ${{ matrix.obzip }}
-          7z x blas.zip -oblas -y
-          copy blas/include/cblas.h .
-          copy blas/include/openblas_config.h .
+          C:/msys64/usr/bin/wget.exe -qO clzip.zip ${{ matrix.clzip }}
+          7z x clzip.7z -o blas -y
+          copy blas/include/cblast.h .
+          copy blas/include/cblast_c.h .
+          copy blas/lib/clblast.dll
           echo "blasdir=$env:GITHUB_WORKSPACE/blas" >> $env:GITHUB_ENV
 
       - name: Fetch SDL2 and set SDL2_DIR
@@ -48,7 +49,7 @@ jobs:
         run: >
           cmake -S . -B ./build -A ${{ matrix.arch }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build }}
-          -DWHISPER_SUPPORT_OPENBLAS=${{ matrix.blas }}
+          -DWHISPER_CLBLAST=${{ matrix.blas }}
           -DCMAKE_LIBRARY_PATH="$env:blasdir/lib"
           -DWHISPER_SUPPORT_SDL2=${{ matrix.sdl2 }}
 
@@ -60,7 +61,7 @@ jobs:
       - name: Copy libopenblas.dll
         if: matrix.blas == 'ON'
         run: copy "$env:blasdir/bin/libopenblas.dll" build/bin/${{ matrix.build }}
-
+ 
       - name: Copy SDL2.dll
         if: matrix.sdl2 == 'ON'
         run: copy "$env:SDL2_DIR/../lib/${{ matrix.s2arc }}/SDL2.dll" build/bin/${{ matrix.build }}
