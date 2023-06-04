@@ -3,25 +3,10 @@ on: [push, pull_request]
 
 permissions:
   contents: write
-  
+
 jobs:
   ubuntu-latest:
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Clone
-        uses: actions/checkout@v1
-
-      - name: Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install build-essential
-          sudo apt-get install libsdl2-dev
-
-      - name: Build
-        run: |
-          make
-          make stream
 
   windows-blas:
     runs-on: windows-latest
@@ -29,13 +14,10 @@ jobs:
     strategy:
       matrix:
         build: [Release]
-        arch: [Win32, x64]
+        arch: [x64]
         blas: [ON]
         sdl2: [ON]
         include:
-          - arch: Win32
-            obzip: https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x86.zip
-            s2arc: x86
           - arch: x64
             obzip: https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip
             s2arc: x64
@@ -102,5 +84,6 @@ jobs:
 
       - name: Create release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: windows_blas.zip
