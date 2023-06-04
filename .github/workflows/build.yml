@@ -36,6 +36,7 @@ jobs:
           copy blas/CLBlast-1.6.0-windows-x64/include/clblast.h .
           copy blas/CLBlast-1.6.0-windows-x64/include/clblast_c.h .
           echo "blasdir=$env:GITHUB_WORKSPACE/blas" >> $env:GITHUB_ENV
+          echo "CLBlast_DIR=$env:GITHUB_WORKSPACE/blas/CLBlast-1.6.0-windows-x64/lib/cmake" >> $env:GITHUB_ENV
 
       - name: Fetch SDL2 and set SDL2_DIR
         if: matrix.sdl2 == 'ON'
@@ -50,6 +51,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build }}
           -DWHISPER_CLBLAST=${{ matrix.blas }}
           -DCMAKE_LIBRARY_PATH="$env:blasdir/CLBlast-1.6.0-windows-x64/lib"
+          -DCMAKE_MODULE_PATH="$env:"
           -DWHISPER_SUPPORT_SDL2=${{ matrix.sdl2 }}
 
       - name: Build
