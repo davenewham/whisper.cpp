@@ -5,9 +5,6 @@ permissions:
   contents: write
 
 jobs:
-  ubuntu-latest:
-    runs-on: ubuntu-latest
-
   windows-blas:
     runs-on: windows-latest
 
