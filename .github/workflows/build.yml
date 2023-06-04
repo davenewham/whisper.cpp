@@ -35,7 +35,6 @@ jobs:
           7z x clzip.7z -oblas -y
           copy blas/CLBlast-1.6.0-windows-x64/include/clblast.h .
           copy blas/CLBlast-1.6.0-windows-x64/include/clblast_c.h .
-          copy blas/CLBlast-1.6.0-windows-x64/lib/clblast.dll .
           echo "blasdir=$env:GITHUB_WORKSPACE/blas" >> $env:GITHUB_ENV
 
       - name: Fetch SDL2 and set SDL2_DIR
@@ -58,9 +57,9 @@ jobs:
           cd ./build
           msbuild ALL_BUILD.vcxproj -t:build -p:configuration=${{ matrix.build }} -p:platform=${{ matrix.arch }}
 
-      - name: Copy libopenblas.dll
+      - name: Copy clblast.dll
         if: matrix.blas == 'ON'
-        run: copy "$env:blasdir/bin/libopenblas.dll" build/bin/${{ matrix.build }}
+        run: copy "$env:blasdir/CLBlast-1.6.0-windows-x64/lib/clblast.dll" build/bin/${{ matrix.build }}
  
       - name: Copy SDL2.dll
         if: matrix.sdl2 == 'ON'
