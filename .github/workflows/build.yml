@@ -33,9 +33,9 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -qO clzip.7z ${{ matrix.clzip }}
           7z x clzip.7z -oblas -y
-          copy blas/CLBlast-1.6.0-windows-x64/include/cblast.h .
-          copy blas/CLBlast-1.6.0-windows-x64/include/cblast_c.h .
-          copy blas/CLBlast-1.6.0-windows-x64/lib/clblast.dll
+          copy blas/CLBlast-1.6.0-windows-x64/include/clblast.h .
+          copy blas/CLBlast-1.6.0-windows-x64/include/clblast_c.h .
+          copy blas/CLBlast-1.6.0-windows-x64/lib/clblast.dll .
           echo "blasdir=$env:GITHUB_WORKSPACE/blas" >> $env:GITHUB_ENV
 
       - name: Fetch SDL2 and set SDL2_DIR
